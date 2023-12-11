@@ -46,7 +46,50 @@ void add() {
     }
 }
 //to add books
-void del(){}//to remove books
+void del() {
+  //to delete books
+  //ask the user to enter the book name
+  string book_name;
+  cout << "Enter the book name to delete: ";
+  cin >> book_name;
+  //search for the book in the library array
+  int index = -1;
+  for (int i = 0; i < total_books; i++) {
+    if (library.book_nam[i] == book_name) {
+      index = i;
+      break;
+    }
+  }
+  //check if the book is found
+  if (index == -1) {
+    cout << "Sorry, the book is not found in the library.\n";
+    return;
+  }
+  //delete the book by shifting all the elements after it to the left
+  for (int i = index; i < total_books - 1; i++) {
+    library.book_nam[i] = library.book_nam[i + 1];
+    library.author_name[i] = library.author_name[i + 1];
+    library.edition[i] = library.edition[i + 1];
+  }
+  //decrement the total number of books
+  total_books--;
+  //display a confirmation message
+  cout << "Book successfully deleted from the library.\n";
+
+    char delMore;
+    cout << "Do you want to delete more books? (y/n): ";
+    cin >> delMore;
+
+    if (delMore == 'y' || delMore == 'Y') {
+        del(); // Recursively call del() function to delete more books
+    } else if (delMore == 'n' || delMore == 'N') {
+        // Optionally provide an exit message or return to the menu
+    } else {
+        cout << "Invalid input. Returning to the main menu." << endl;
+    }
+}
+
+//to remove books
 void view(){}//to view all the books present
 void issu_view(){}//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
 void issue(){}//to issue a book
