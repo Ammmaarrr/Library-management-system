@@ -15,7 +15,25 @@ struct project {
 };
 project library;
 int total_books = 0;
-void add(){}//to add books
+void add() {
+  //to add books
+  //ask the user to enter the book information
+  cout << "Enter the book name: ";
+  cin >> library.book_nam[total_books];
+  cout << "Enter the book author: ";
+  cin >> library.author_name[total_books];
+  cout << "Enter the book edition: ";
+  cin >> library.edition[total_books];
+  //check if the library is full
+  if (total_books == 100) {
+    cout << "Sorry, the library is full. Cannot add more books.\n";
+    return;
+  }
+  //increment the total number of books
+  total_books++;
+  //display a confirmation message
+  cout << "Book successfully added to the library.\n";
+}//to add books
 void del(){}//to remove books
 void view(){}//to view all the books present
 void issu_view(){}//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
