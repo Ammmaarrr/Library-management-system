@@ -33,7 +33,20 @@ void add() {
   total_books++;
   //display a confirmation message
   cout << "Book successfully added to the library.\n";
-}//to add books
+
+    char addMore;
+    cout << "Do you want to add more books? (y/n): ";
+    cin >> addMore;
+
+    if (addMore == 'y' || addMore == 'Y') {
+        add(); // Recursively call add() function to add more books
+    } else if (addMore == 'n' || addMore == 'N') {
+        // Optionally provide an exit message or return to the menu
+    } else {
+        cout << "Invalid input. Returning to the main menu." << endl;
+    }
+}
+//to add books
 void del() {
   //to delete books
   //ask the user to enter the book name
