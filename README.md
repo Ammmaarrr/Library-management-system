@@ -1,5 +1,5 @@
 \\ Library-management-system giki
-  #include<iostream>
+ #include<iostream>
 #include<string>
 #include<cstdlib> //used for clearing the screen
 using namespace std;
@@ -22,6 +22,7 @@ void add() {//to add books
         cin >> library.author_name[total_books];
         cout << "Enter the book edition: ";
         cin >> library.edition[total_books];
+        system("cls");
         if (total_books == 100) //check if the library is full
          { 
            cout << "Sorry, the library is full. Cannot add more books.\n";
@@ -85,9 +86,10 @@ void add() {//to add books
 }
 void view(){
   system("cls");
-  for(int i=0;i<=total_books;i++){
+   for(int i=0;i<total_books;i++){
+    cout<<i+1<<":";
     cout<<"book name:"<<library.book_nam[i]<<endl;
-    cout<<"authore name:"<<library.author_name[i]<<endl;
+    cout<<"author name:"<<library.author_name[i]<<endl;
     cout<<"edition :"<<library.edition[i]<<endl;
     cout<<endl;
   }
@@ -95,21 +97,11 @@ void view(){
 void issu_view(){}//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
 void issue(){}//to issue a book
 void retur(){}//to return a book
-int main()
-{
-   int choice,stu_choice,libr_choice;
-   do{
-   cout<<"_____________MENU_______________"<<endl;
-   cout<<"  1:student \n";
-   cout<<"  2:librarian\n";
-   cout<<"  3:exit\n";
-   cout<<"enter your choice:";
-   cin>>choice;
-  if(choice==1)
-  {    
-       system("CLS");
-       do{
+void stu_menu()
+{ 
+       int stu_choice;
        cout<<"**********welcome student**********\n";
+       do{
        cout<<"_____________MENU_______________\n";// use switch for studen menu
        cout<<"1:book list\n";
        cout<<"2:issue book\n";
@@ -129,7 +121,7 @@ int main()
           retur();
         break;
         case 4:
-          main();
+          return;
         break;
         default:
            cout<<"invalid input";
@@ -137,9 +129,10 @@ int main()
         }
       }
       while(stu_choice!=4);
-    }
-    else if(choice==2){
-        system("CLS");
+
+}
+void libr_menu(){
+        int libr_choice;
         string name="admin";
         string passw="admin123";
         int i=3;
@@ -152,9 +145,9 @@ int main()
             system("CLS");
             if(name=="admin" && passw=="admin123")
             {
+                cout<<"**********welcome LIBRARIYAN**********\n";
              do
-             {
-                cout<<"**********welcome LIBRARIYAN**********\n";//use switch for librian
+             { 
                 cout<<"_____________MENU_______________\n";
                 cout<<"1:add books\n";
                 cout<<"2:delete books:\n";
@@ -166,7 +159,7 @@ int main()
                    switch (libr_choice)
                 {
                   case 1:
-                      add();
+                       add();
                   break;
                   case 2:
                        del();
@@ -178,14 +171,14 @@ int main()
                      issu_view();
                  break;
                  case 5:
-                   main();
+                   return;
                     cout<<"going back to main menu";
                  break;
                  default:
                    cout<<"invalid input";
-                 break;
+                   break;
                 }  
-             }while(libr_choice!=4);
+             }while(libr_choice!=5);
                     }  else if (name != "admin" && passw != "admin123")
                     {
                       cout << "Invalid name and password.Try again\n";
@@ -195,13 +188,35 @@ int main()
                         } else if (passw != "admin123") {
                              cout << "Invalid password.Try again\n";
                         }
+                          
                           i--;
           }              
                    while(i>0);{
               cout<<"you have reached maximum tryes\n";
-              return 0;
+              
             }
-        }
+}
+int main(){
+    
+    
+   system("cls");
+   int choice;
+   do{
+   cout<<"_____________MENU_______________"<<endl;
+   cout<<"  1:student \n";
+   cout<<"  2:librarian\n";
+   cout<<"  3:exit\n";
+   cout<<"enter your choice:";
+   cin>>choice;
+  if(choice==1)
+  {    
+     system("CLS");
+     stu_menu();
+    }
+    else if(choice==2){
+        system("CLS");
+       libr_menu();
+       }
        else if(choice==3)
          {
           system("CLS");
@@ -210,7 +225,6 @@ int main()
          }
      }while(choice!=3);
   } 
-   
 //work need to be done :::::
 //use outer do will loop in main func  for all the program 
 //user inner loops for student and librarian where exit will help them go out to main menu
