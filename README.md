@@ -1,35 +1,83 @@
-\\ Library-management-system giki
- #include<iostream>
+#include<iostream>
 #include<string>
 #include<cstdlib> //used for clearing the screen
 using namespace std;
-
+//______struct______//
 struct project {
     string book_nam[100];
     string author_name[100];
     string edition[100];
+};
+struct isu{
+    string issubook[100];
+    string issuauthorname[100];
+    string issuedition[100];
     string student_name[100];
-    int reg_no[100];
-    int hostel_no[100];
+    string reg_no[100];
+    string faculty[100];
 };
 project library;
+isu ammar;
 int total_books = 0;
+int total_issu;
+void clear_function(){
+    system("cls");
+}
+//_____ to view books_________//
+void view(){
+    clear_function();
+    if ( total_books==0){
+      cout <<"\t\tNo books found in the library\n ";
+    }
+    else{
+    for(int i=0;i<total_books;i++){
+    cout<<i+1<<":";
+    cout<<"book name:"<<library.book_nam[i]<<endl;
+    cout<<"author name:"<<library.author_name[i]<<endl;
+    cout<<"edition :"<<library.edition[i]<<endl;
+    cout<<endl;}
+  }
+}
+//_______----to see issued books-----_______//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
+void view2(){
+     clear_function();
+    if (total_issu == 0) {
+        cout << "No books have been issued yet.\n";
+    } else {
+            cout << "List of Issued Books:\n";
+            for (int i = 0; i < total_issu; ++i) {
+            cout << "Book " << i + 1 << ":\n";
+            cout << "  Book Name: " << ammar.issubook[i] << endl;
+            cout << "  Author Name: " << ammar.issuauthorname[i] << endl;
+            cout << "  Edition: " << ammar.issuedition[i] << endl;
+            cout << "  Student Name: " << ammar.student_name[i] << endl;
+            cout << "  Registration Number: " << ammar.reg_no[i] << endl;
+            cout << "  Faculty: " << ammar.faculty[i] << endl;
+            cout << endl;
+        }
+    }
+}
+//____add book function______//
 void add() {//to add books
+        clear_function();
         char addMore;
-        cout << "Enter the book name: ";//ask the user to enter the book information
+        cout<<"\t\t\t----enter book details---\n";
+        cout << "\t\tEnter the book name: ";//ask the user to enter the book information       // isnt this function for the librarian
         cin >> library.book_nam[total_books];
-        cout << "Enter the book author: ";
+        cout << "\t\tEnter the book author: ";
         cin >> library.author_name[total_books];
-        cout << "Enter the book edition: ";
+        cout << "\t\tEnter the book edition: ";
         cin >> library.edition[total_books];
-        system("cls");
+        clear_function();
         if (total_books == 100) //check if the library is full
          { 
            cout << "Sorry, the library is full. Cannot add more books.\n";
            return;
          }
           total_books++;//increment the total number of books
+          cout<<"----------------------------------------------\n";
           cout << "Book successfully added to the library.\n"; //display a confirmation message
+           cout<<"----------------------------------------------\n";
           cout << "Do you want to add more books? (y/n): ";
           cin >> addMore;
            if (addMore == 'y' || addMore == 'Y') 
@@ -37,14 +85,16 @@ void add() {//to add books
                       add(); // Recursively call add() function to add more books
            }  
            else if (addMore == 'n' || addMore == 'N') {// Optionally provide an exit message or return to the menu
-        
-     } else {
+         } else {
         cout << "Invalid input. Returning to the main menu." << endl;
      }
 }
- void del() //to delete books
+//_____ to delete books function_________//
+ void del() 
 {
+   clear_function();
    string book_name; //ask the user to enter the book name
+   view ();
    cout << "Enter the book name to delete: ";
    cin >> book_name;
    int index = -1; //search for the book in the library array
@@ -68,8 +118,10 @@ void add() {//to add books
       library.edition[i] = library.edition[i + 1];
      }
      total_books--;//decrement the total number of books
+      cout<<"----------------------------------------------\n";
      cout << "Book successfully deleted from the library.\n"; //display a confirmation message
      char delMore;
+      cout<<"----------------------------------------------\n";
      cout << "Do you want to delete more books? (y/n): ";
      cin >> delMore;
      if (delMore == 'y' || delMore == 'Y')
@@ -84,148 +136,230 @@ void add() {//to add books
         cout << "Invalid input. Returning to the main menu." << endl;
        }
 }
-void view(){
-  system("cls");
-   for(int i=0;i<total_books;i++){
-    cout<<i+1<<":";
-    cout<<"book name:"<<library.book_nam[i]<<endl;
-    cout<<"author name:"<<library.author_name[i]<<endl;
-    cout<<"edition :"<<library.edition[i]<<endl;
-    cout<<endl;
-  }
-}//to view all the books present
-void issu_view(){}//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
-void issue(){}//to issue a book
-void retur(){}//to return a book
+//____for issuing book________//
+
+
+void issue(){
+  clear_function();
+  string bookname,studentname,regno,faculty;
+  view();
+    cout<<"Enter the Book name : "<<endl;
+    cin>>bookname;   
+       for( int i=0;i<total_books;i++){
+		if(library.book_nam[i]==bookname){
+       cout<<"\t\t\tEnter your details  "<<endl;
+       cout<<"\t\tEnter your name : ";
+       cin>>studentname;
+       cout<<"\t\tEnter your Registration number : ";
+       cin>>regno;
+       cout<<"\t\tEnter your faculty :";
+       cin>>faculty;
+       ammar.issubook[total_issu]=library.book_nam[i];
+       ammar.issuauthorname[total_issu]=library.author_name[i];
+       ammar.issuedition[total_issu]=library.edition[i];
+       ammar.student_name[total_issu]=studentname;
+       ammar.reg_no[total_issu]=regno;
+       ammar.faculty[total_issu]=faculty;
+        cout<<"----------------------------------------------\n";
+		cout<<"book has been isued"<<endl;
+  total_issu++;
+	break;
+	}
+       else
+       {
+       	cout<<"book is not available"<<endl;
+       	return;
+	   }
+       
+	   
+}
+}
+//________to return a book__________//
+void retur(){
+      clear_function();
+	    string studname, bookname;
+    string regno, faculty;
+    cout << "Enter book name : " << endl;
+    cin >> bookname;
+    for (int i = 0; i < total_issu; i++) {
+            cout << "\t\t------Enter your details------" << endl;
+            cout << "Enter your name : ";
+            cin >> studname;
+            cout << "Enter your registration number : ";
+            cin >> regno;
+            cout << "Enter your faculty : ";
+            cin >> faculty;
+            clear_function();
+        if (ammar.student_name[i] == studname &&
+            ammar.reg_no[i] == regno &&
+            ammar.faculty[i] == faculty &&
+            ammar.issubook[i] == bookname) {
+            cout<<"----------------------------------------------\n";
+            cout << "Book has been returned" << endl;
+            ammar.student_name[i] = ammar.student_name[i+1]; 
+            ammar.reg_no[i] = ammar.reg_no[i+1]; 
+            ammar.faculty[i] = ammar.faculty[i+1];
+            ammar.issubook[i]=ammar.issubook[i+1];
+            ammar.issuauthorname[i]=ammar.issubook[i+1];
+            ammar.issuedition[i]=ammar.issubook[i+1];
+			total_issu--; // Decrement the total issued books counter
+            break;
+        }
+        else{
+        	cout<<"book is invalid : "<<endl;
+		}
+    }
+
+}
+
+//_________student menu__________//
 void stu_menu()
-{ 
+{      
        int stu_choice;
-       cout<<"**********welcome student**********\n";
+       clear_function();
+       cout<<"\t\t\t\t---------WELCOME STUDENT--------"<<endl;
        do{
-       cout<<"_____________MENU_______________\n";// use switch for studen menu
-       cout<<"1:book list\n";
-       cout<<"2:issue book\n";
-       cout<<"3:return book\n";
-       cout<<"4:exit\n";
-       cout<<"enter your choice";
+       cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
+       cout<<"\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
+       cout<<"\t\t\t\t|                               |"<<endl;
+       cout<<"\t\t\t\t|  1:book list                  |"<<endl; 
+       cout<<"\t\t\t\t|  2:return book                |"<<endl;
+       cout<<"\t\t\t\t|  3:exit                       |"<<endl;
+       cout<<"\t\t\t\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|"<<endl;
+       cout<<endl;
+       cout<<"\tenter your choice:";
        cin>>stu_choice;
        switch (stu_choice)
         {
         case 1:
-          view();
+         view();
         break;
         case 2:
-          issue();
-        break;
-        case 3:
           retur();
         break;
-        case 4:
+        case 3:
           return;
         break;
         default:
-           cout<<"invalid input";
+        cout<<"invalid input";
+           stu_menu();
         break;
         }
       }
-      while(stu_choice!=4);
+      while(stu_choice!=3);
 
 }
+//________librarian menu_______________//
 void libr_menu(){
         int libr_choice;
         string name="admin";
         string passw="admin123";
         int i=3;
         do{   //used for loop for only three chances
-            cout<<"      **** for access enter your specified name and password **** max tries are three only"<<endl;
-            cout<<"enter your NAME:";
+            cout<<"\t\t\t-----for access enter your specified name and password(max tries are three only)-----"<<endl;
+            cout<<"\t\tenter your NAME:";
             cin>>name;
-            cout<<"enter your Password:";
+            cout<<"\t\tenter your Password:";
             cin>>passw;
-            system("CLS");
+            clear_function();
             if(name=="admin" && passw=="admin123")
-            {
-                cout<<"**********welcome LIBRARIYAN**********\n";
-             do
-             { 
-                cout<<"_____________MENU_______________\n";
-                cout<<"1:add books\n";
-                cout<<"2:delete books:\n";
-                cout<<"3:books list:\n";
-                cout<<"4:view list of issued books\n";
-                cout<<"5:exit\n";
-                cout<<"enter your choice:";
-                cin>>libr_choice;
-                   switch (libr_choice)
-                {
-                  case 1:
-                       add();
-                  break;
-                  case 2:
-                       del();
-                  break;
-                 case 3:
-                       view();
-                  break;
-                 case 4:
-                     issu_view();
-                 break;
-                 case 5:
-                   return;
-                    cout<<"going back to main menu";
-                 break;
-                 default:
-                   cout<<"invalid input";
-                   break;
-                }  
-             }while(libr_choice!=5);
-                    }  else if (name != "admin" && passw != "admin123")
-                    {
-                      cout << "Invalid name and password.Try again\n";
-                    }  else if (name != "admin")
-                        {
+            {          
+                       cout<<"\t\t\t\t--------- WELCOME LIBRARIAN--------"<<endl;
+            do
+             {        
+                       cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
+                       cout<<"\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
+                       cout<<"\t\t\t\t|                               |"<<endl;
+                       cout<<"\t\t\t\t|  1:Add Book                   |"<<endl; 
+                       cout<<"\t\t\t\t|  2:Delete Book                |"<<endl;
+                       cout<<"\t\t\t\t|  3:Book list                  |"<<endl;
+                       cout<<"\t\t\t\t|  4:Issue Book                 |"<<endl;
+                       cout<<"\t\t\t\t|  5:List Of Issued Books       |"<<endl;
+                       cout<<"\t\t\t\t|  6:exit                       |"<<endl;
+                       cout<<"\t\t\t\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|"<<endl;
+                       cout<<endl;
+                       cout<<"\t\tenter your choice:";
+                       cin>>libr_choice;
+                       switch (libr_choice)
+                       {
+                       case 1:
+                          add();
+                       break;
+                       case 2:
+                        del();
+                       break;
+                       case 3:
+                         view();
+                       break;
+                       case 4:
+                         issue();
+                       break;
+                       case 5:
+                         view2();
+                         break;
+                       case 6:
+                         return;
+                         cout<<"going back to main menu";
+                       break;
+                       default:
+                         cout<<"invalid input";
+                         libr_menu();
+                       break;
+                       }  
+             }while(libr_choice!=6);
+                    }  
+                     else if (name != "admin" && passw != "admin123")
+                     {
+                           cout << "Invalid name and password.Try again\n";
+                     } 
+                     else if (name != "admin")
+                     {
                            cout << "Invalid name.Try again\n";
-                        } else if (passw != "admin123") {
-                             cout << "Invalid password.Try again\n";
-                        }
+                     } 
+                    else if (passw != "admin123") 
+                    {
+                            cout << "Invalid password.Try again\n";
+                    }
                           
                           i--;
           }              
-                   while(i>0);{
-              cout<<"you have reached maximum tryes\n";
-              
-            }
+                   while(i>0);
+                   {
+                     cout<<"you have reached maximum tryes\n";
+                   }
 }
+//--------------------------------------------------------------------------------------------------------------------//
+//___________MAIN MENU--------------------------------------------------------------------------------//
 int main(){
-    
-    
-   system("cls");
-   int choice;
+   string choice;
    do{
-   cout<<"_____________MENU_______________"<<endl;
-   cout<<"  1:student \n";
-   cout<<"  2:librarian\n";
-   cout<<"  3:exit\n";
-   cout<<"enter your choice:";
-   cin>>choice;
-  if(choice==1)
+   	   clear_function();
+       cout<<"\t\t\t ----WELCOME TO LIBRARY MANAGMENT SYSTEM----"<<endl;
+    do{
+       cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
+       cout<<"\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
+       cout<<"\t\t\t\t|                               |"<<endl;
+       cout<<"\t\t\t\t|  1:Student                    |"<<endl; 
+       cout<<"\t\t\t\t|  2:Librarian                  |"<<endl;
+       cout<<"\t\t\t\t|  3:exit                       |"<<endl;
+       cout<<"\t\t\t\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|"<<endl;
+       cout<<"\t\tenter your choice:";
+       cin>>choice;
+         if(choice=="1")
   {    
      system("CLS");
      stu_menu();
     }
-    else if(choice==2){
+    else if(choice=="2"){
         system("CLS");
        libr_menu();
        }
-       else if(choice==3)
+       else if(choice=="3")
          {
           system("CLS");
           cout<<"&&&&&&&&&&  EXITING PROGRAM &&&&&&&&&&&&&&";
           return 0;
          }
-     }while(choice!=3);
-  } 
-//work need to be done :::::
-//use outer do will loop in main func  for all the program 
-//user inner loops for student and librarian where exit will help them go out to main menu
-//make thee function
+         }while(choice=="1"||choice=="2"||choice=="3");
+ }while(choice!="3");
+}
