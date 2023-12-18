@@ -1,4 +1,3 @@
-
 #include<iostream>
 #include<string>
 #include<cstdlib> //used for clearing the screen
@@ -372,6 +371,7 @@ int main(){
    string choice;
    do{
    	  do{
+   	  	 system("CLS");
         cout<<"\t\t\t ----WELCOME TO LIBRARY MANAGMENT SYSTEM----"<<endl;
         cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
        cout<<"\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
