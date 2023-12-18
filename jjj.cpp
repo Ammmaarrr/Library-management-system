@@ -2,7 +2,7 @@
 #include<string>
 #include<cstdlib> //used for clearing the screen
 using namespace std;
-//______struct______//
+//_________________struct___________________//
 struct project {
     string book_nam[100];
     string author_name[100];
@@ -20,16 +20,19 @@ project library;
 isu ammar;
 int total_books = 0;
 int total_issu;
+//---------------function to call to clear screen-------------------//
 void clear_function(){
     system("cls");
 }
-//_____ to view books_________//
+//_____________ to view books_____________________//
 void view(){
     clear_function();
     if ( total_books==0){
       cout <<"\t\tNo books found in the library\n ";
     }
     else{
+    cout<<"List of books\n";
+     cout<<"----------------------------------------------\n";
     for(int i=0;i<total_books;i++){
     cout<<i+1<<":";
     cout<<"book name:"<<library.book_nam[i]<<endl;
@@ -38,13 +41,14 @@ void view(){
     cout<<endl;}
   }
 }
-//_______----to see issued books-----_______//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
+//_____________________----to see issued books-----_____________________//to see all the books issued,authore name,book edd , student name ,reg no,hostel no,
 void view2(){
      clear_function();
     if (total_issu == 0) {
         cout << "No books have been issued yet.\n";
     } else {
             cout << "List of Issued Books:\n";
+            cout<<"----------------------------------------------\n";
             for (int i = 0; i < total_issu; ++i) {
             cout << "Book " << i + 1 << ":\n";
             cout << "  Book Name: " << ammar.issubook[i] << endl;
@@ -57,11 +61,12 @@ void view2(){
         }
     }
 }
-//____add book function______//
+//___________add book function___________________//
 void add() {//to add books
         clear_function();
         char addMore;
         cout<<"\t\t\t----enter book details---\n";
+         cout<<"----------------------------------------------\n";
         cout << "\t\tEnter the book name: ";//ask the user to enter the book information       // isnt this function for the librarian
         cin >> library.book_nam[total_books];
         cout << "\t\tEnter the book author: ";
@@ -90,7 +95,7 @@ void add() {//to add books
         cout << "Invalid input. Returning to the main menu." << endl;
      }
 }
-//_____ to delete books function_________//
+//_____________ to delete books function_____________________//
  void del() 
 {
    clear_function();
@@ -137,90 +142,114 @@ void add() {//to add books
         cout << "Invalid input. Returning to the main menu." << endl;
        }
 }
-//____for issuing book________//
-
-
-void issue(){
-  clear_function();
-  string bookname,studentname,regno,faculty;
-  view();
-    cout<<"Enter the Book name : "<<endl;
-    cin>>bookname;   
-       for( int i=0;i<total_books;i++){
-		if(library.book_nam[i]==bookname){
-       cout<<"\t\t\tEnter your details  "<<endl;
-       cout<<"\t\tEnter your name : ";
-       cin>>studentname;
-       cout<<"\t\tEnter your Registration number : ";
-       cin>>regno;
-       cout<<"\t\tEnter your faculty :";
-       cin>>faculty;
-       ammar.issubook[total_issu]=library.book_nam[i];
-       ammar.issuauthorname[total_issu]=library.author_name[i];
-       ammar.issuedition[total_issu]=library.edition[i];
-       ammar.student_name[total_issu]=studentname;
-       ammar.reg_no[total_issu]=regno;
-       ammar.faculty[total_issu]=faculty;
-        cout<<"----------------------------------------------\n";
-		cout<<"book has been isued"<<endl;
-  total_issu++;
-	break;
-	}
-       else
-       {
-       	cout<<"book is not available"<<endl;
-       	return;
-	   }
-       
-	   
-}
-}
-//________to return a book__________//
-void retur(){
-      clear_function();
-	    string studname, bookname;
-    string regno, faculty;
-    cout << "Enter book name : " << endl;
+//_____________for issuing book_______________________//
+void issue() {
+    clear_function();
+    string bookname, studentname, regno, faculty;
+    view();
+     cout<<"----------------------------------------------\n";
+	 cout << "Enter the Book name: " << endl;
     cin >> bookname;
-    for (int i = 0; i < total_issu; i++) {
-            cout << "\t\t------Enter your details------" << endl;
-            cout << "Enter your name : ";
-            cin >> studname;
-            cout << "Enter your registration number : ";
+  cout<<"----------------------------------------------\n";
+    for (int i = 0; i < total_books; i++) {
+        if (library.book_nam[i] == bookname) {
+            cout << "\t\t\tEnter your details" << endl;
+            cout<<"----------------------------------------------\n";
+            cout << "\t\tEnter your name: ";
+            cin >> studentname;
+            cout << "\t\tEnter your Registration number: ";
             cin >> regno;
-            cout << "Enter your faculty : ";
+            cout << "\t\tEnter your faculty: ";
             cin >> faculty;
-            clear_function();
+
+            // Add the book details to the issued books struct
+            ammar.issubook[total_issu] = library.book_nam[i];
+            ammar.issuauthorname[total_issu] = library.author_name[i];
+            ammar.issuedition[total_issu] = library.edition[i];
+            ammar.student_name[total_issu] = studentname;
+            ammar.reg_no[total_issu] = regno;
+            ammar.faculty[total_issu] = faculty;
+
+            // Increment the total issued books counter
+            total_issu++;
+
+            // Remove the book from the library by shifting elements after it to the left
+            for (int j = i; j < total_books - 1; j++) {
+                library.book_nam[j] = library.book_nam[j + 1];
+                library.author_name[j] = library.author_name[j + 1];
+                library.edition[j] = library.edition[j + 1];
+            }
+
+            total_books--; // Decrement the total number of books
+
+            cout << "----------------------------------------------\n";
+            cout << "Book has been issued, and it is removed from the library." << endl;
+            cout << "----------------------------------------------\n";
+
+            break;
+        }
+    }
+}
+//_________________________to return a book_____________________________//
+void retur() {
+    clear_function();
+    string studname, bookname, regno, faculty;
+    cout << "Enter book name: " << endl;
+    cin >> bookname;
+
+    for (int i = 0; i < total_issu; i++) {
+        cout << "\t\t------Enter your details------" << endl;
+        cout << "Enter your name: ";
+        cin >> studname;
+        cout << "Enter your registration number: ";
+        cin >> regno;
+        cout << "Enter your faculty: ";
+        cin >> faculty;
+       // clear_function();
+
         if (ammar.student_name[i] == studname &&
             ammar.reg_no[i] == regno &&
             ammar.faculty[i] == faculty &&
             ammar.issubook[i] == bookname) {
-            cout<<"----------------------------------------------\n";
-            cout << "Book has been returned" << endl;
-            ammar.student_name[i] = ammar.student_name[i+1]; 
-            ammar.reg_no[i] = ammar.reg_no[i+1]; 
-            ammar.faculty[i] = ammar.faculty[i+1];
-            ammar.issubook[i]=ammar.issubook[i+1];
-            ammar.issuauthorname[i]=ammar.issubook[i+1];
-            ammar.issuedition[i]=ammar.issubook[i+1];
-			total_issu--; // Decrement the total issued books counter
-            break;
-        }
-        else{
-        	cout<<"book is invalid : "<<endl;
-		}
-    }
+            
+            // Add the book back to the library
+            library.book_nam[total_books] = ammar.issubook[i];
+            library.author_name[total_books] = ammar.issuauthorname[i];
+            library.edition[total_books] = ammar.issuedition[i];
 
+            // Increment the total number of books
+            total_books++;
+
+            // Remove the book from the issued books struct by shifting elements after it to the left
+            for (int j = i; j < total_issu - 1; j++) {
+                ammar.issubook[j] = ammar.issubook[j + 1];
+                ammar.issuauthorname[j] = ammar.issuauthorname[j + 1];
+                ammar.issuedition[j] = ammar.issuedition[j + 1];
+                ammar.student_name[j] = ammar.student_name[j + 1];
+                ammar.reg_no[j] = ammar.reg_no[j + 1];
+                ammar.faculty[j] = ammar.faculty[j + 1];
+            }
+
+            total_issu--; // Decrement the total issued books counter
+
+            cout << "----------------------------------------------\n";
+            cout << "Book has been returned, and it is added back to the library." << endl;
+            cout << "----------------------------------------------\n";
+
+            break;
+        } else {
+            cout << "Book is not found or details are invalid." << endl;
+        }
+    }
 }
 
-//_________student menu__________//
+//__________________________student menu_______________________________//
 void stu_menu()
 {      
        int stu_choice;
        clear_function();
        cout<<"\t\t\t\t---------WELCOME STUDENT--------"<<endl;
        do{
-      
        cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
        cout<<"\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
        cout<<"\t\t\t\t|                               |"<<endl;
@@ -238,7 +267,6 @@ void stu_menu()
           view();
         break;
         case 2:
-          
           retur();
         break;
         case 3:
@@ -253,7 +281,7 @@ void stu_menu()
       while(stu_choice!=3);
 
 }
-//________librarian menu_______________//
+//_________________________librarian menu__________________________________________//
 void libr_menu(){
         int libr_choice;
         string name="admin";
@@ -301,6 +329,7 @@ void libr_menu(){
                        case 4:
                          
                          issue();
+                        
                        break;
                        case 5:
                          view2();
@@ -337,15 +366,13 @@ void libr_menu(){
                    }
 }
 //--------------------------------------------------------------------------------------------------------------------//
-//___________MAIN MENU--------------------------------------------------------------------------------//
+//___________________________MAIN MENU--------------------------------------------------------------------------------//
 int main(){
    string choice;
    do{
-   	   clear_function();
-       cout<<"\t\t\t ----WELCOME TO LIBRARY MANAGMENT SYSTEM----"<<endl;
-    do{
-       
-       cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
+   	  do{
+        cout<<"\t\t\t ----WELCOME TO LIBRARY MANAGMENT SYSTEM----"<<endl;
+        cout<<"\t\t\t\t-----------  M E N U  -----------"<<endl;
        cout<<"\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
        cout<<"\t\t\t\t|                               |"<<endl;
        cout<<"\t\t\t\t|  1:Student                    |"<<endl; 
@@ -376,3 +403,4 @@ int main(){
 
         }while(choice!="3");
 }
+
